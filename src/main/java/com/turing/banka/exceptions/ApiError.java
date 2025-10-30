@@ -2,10 +2,6 @@ package com.turing.banka.exceptions;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 public class ApiError {
     private LocalDateTime timestamp;
@@ -130,5 +126,17 @@ public class ApiError {
 
     public static Builder builder() {
         return new Builder();
+    }
+
+    @Override
+    public String toString() {
+        return "ApiError{" +
+            "timestamp=" + timestamp +
+            ", status=" + status +
+            ", error='" + error + '\'' +
+            ", message='" + message + '\'' +
+            ", path='" + path + '\'' +
+            ", details=" + details +
+            '}';
     }
 }
