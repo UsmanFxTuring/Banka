@@ -27,6 +27,9 @@ public class UserRequest {
     )
     private String phoneNumber;
 
+    @Pattern(regexp = "^[A-Za-z0-9_]{3,20}$", message = "Username must be 3–20 characters and alphanumeric")
+    private String username;
+
     public String getLastName() {
         return lastName;
     }
@@ -65,6 +68,14 @@ public class UserRequest {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public UserRequest(String firstName, String lastName, String email, String password, String phoneNumber) {

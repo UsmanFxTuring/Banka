@@ -9,6 +9,7 @@ public class UserResponse {
     private String firstName;
     private String lastName;
     private String email;
+    private String username;
     private LocalDateTime createdAt;
 
     public UserResponse() {
@@ -60,5 +61,13 @@ public class UserResponse {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

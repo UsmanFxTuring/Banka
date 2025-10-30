@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -12,6 +13,7 @@ import static org.mockito.Mockito.when;
 
 import com.turing.banka.dtos.UserRequest;
 import com.turing.banka.dtos.UserResponse;
+import com.turing.banka.dtos.UserUpdateRequest;
 import com.turing.banka.exceptions.CustomException;
 import com.turing.banka.models.User;
 import com.turing.banka.repositories.UserRepository;
@@ -75,5 +77,18 @@ class UserServiceTest {
         assertThrows(CustomException.class, () -> userService.registerUser(request));
 
         verify(userRepository, never()).save(any(User.class));
+    }
+
+    @Test
+    void updateUsernameShouldBeSuccessful() {
+        when(userRepository.existsByUsername(anyString())).thenReturn(false);
+        final var userId = UUID.randomUUID();
+        final var user = new User(userId, "firstName", "lastName", "email", "password", "phoneNumber", LocalDateTime.now());
+        when(userRepository.findById(userId)).thenReturn(Optional.of(user));
+        when(userRepository.save(any(User.class))).thenReturn(user);
+        final var updateRequest = new UserUpdateRequest();
+        request.setUsername("username");
+        final var response = userService.updateUsername(userId.toString(), updateRequest);
+        assertNotNull(response);
     }
 }
