@@ -25,12 +25,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/register")
-    @ResponseStatus(HttpStatus.CREATED)
-    public UserResponse register(@Valid @RequestBody UserRequest request) {
-        return userService.registerUser(request);
-    }
-
     @PatchMapping("/{id}/username")
     public ResponseEntity<UserResponse> updateUsername(@PathVariable String id,
                                                        @Valid @RequestBody UserUpdateRequest request) {
