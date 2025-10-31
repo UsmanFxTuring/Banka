@@ -16,34 +16,9 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
-    private final ModelMapper modelMapper;
 
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, ModelMapper modelMapper) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.modelMapper = modelMapper;
-    }
-
-    public UserResponse registerUser(UserRequest request) {
-        userRepository.findByEmail(request.getEmail())
-            .ifPresent(u -> {
-                throw new CustomException("Email already registered: " + request.getEmail(), HttpStatus.CONFLICT);
-            });
-
-        if (request.getUsername() != null && userRepository.existsByUsername(request.getUsername())) {
-            throw new CustomException("Username already taken", HttpStatus.CONFLICT);
-        }
-
-        User user = modelMapper.map(request, User.class);
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-
-        User saved = userRepository.save(user);
-
-        final var response = new UserResponse(saved.getId(), saved.getFirstName(), saved.getLastName(), saved.getEmail(),
-            saved.getCreatedAt());
-        response.setUsername(user.getUsername());
-        return response;
     }
 
     public UserResponse updateUsername(String userId, UserUpdateRequest request) {
